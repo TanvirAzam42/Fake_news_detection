@@ -30,3 +30,18 @@ df_true = df_true.head(21407)
 # Adding class to manual testing datasets
 df_fake_manual_testing["class"] = 0
 df_true_manual_testing["class"] = 1
+
+ #Merging True and Fake Dataframes
+df_merge = pd.concat([df_fake, df_true], axis=0)
+
+# Removing columns which are not required
+df = df_merge.drop(["title", "subject", "date"], axis=1)
+
+# Random Shuffling the dataframe
+df = df.sample(frac=1)
+
+# Reset index
+df.reset_index(inplace=True)
+df.drop(["index"], axis=1, inplace=True)
+
+df.columns
