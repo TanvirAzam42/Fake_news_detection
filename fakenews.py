@@ -77,3 +77,4 @@ df["text"] = df["text"].astype(str)
 df["text"] = df["text"].apply(wordopt)
 
 #tanvir
+#Auti
