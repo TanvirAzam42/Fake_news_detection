@@ -78,6 +78,37 @@ df["text"] = df["text"].apply(wordopt)
 
 
 
+#extracting features
+x = df["text"]
+y = df["class"]
+
+#split data into training and testing states.
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25)
+
+# Convert text to vectors
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+vectorization = TfidfVectorizer()
+xv_train = vectorization.fit_transform(x_train)
+xv_test = vectorization.transform(x_test)
+
+# Logistic Regression
+from sklearn.linear_model import LogisticRegression
+
+LR = LogisticRegression()
+LR.fit(xv_train, y_train)
+pred_lr = LR.predict(xv_test)
+print("Logistic Regression Accuracy:", accuracy_score(y_test, pred_lr))
+print(classification_report(y_test, pred_lr))
+
+# Decision Tree Classification
+from sklearn.tree import DecisionTreeClassifier
+
+DT = DecisionTreeClassifier()
+DT.fit(xv_train, y_train)
+pred_dt = DT.predict(xv_test)
+print("Decision Tree Accuracy:", accuracy_score(y_test, pred_dt))
+print(classification_report(y_test, pred_dt))
 
 
 
