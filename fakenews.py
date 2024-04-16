@@ -75,5 +75,3 @@ df["text"] = df["text"].astype(str)
 
 #applying preprocessing_function(wordplot)
 df["text"] = df["text"].apply(wordopt)
-
-#tanvir
