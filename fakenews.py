@@ -75,3 +75,55 @@ df["text"] = df["text"].astype(str)
 
 #applying preprocessing_function(wordplot)
 df["text"] = df["text"].apply(wordopt)
+
+
+
+
+
+
+# Gradient Boosting Classifier
+from sklearn.ensemble import GradientBoostingClassifier
+
+GBC = GradientBoostingClassifier(random_state=0)
+GBC.fit(xv_train, y_train)
+pred_gbc = GBC.predict(xv_test)
+print("Gradient Boosting Classifier Accuracy:", accuracy_score(y_test, pred_gbc))
+print(classification_report(y_test, pred_gbc))
+
+# Random Forest Classifier
+from sklearn.ensemble import RandomForestClassifier
+
+RFC = RandomForestClassifier(random_state=0)
+RFC.fit(xv_train, y_train)
+pred_rfc = RFC.predict(xv_test)
+print("Random Forest Classifier Accuracy:", accuracy_score(y_test, pred_rfc))
+print(classification_report(y_test, pred_rfc))
+
+# Model Testing
+def output_lable(n):
+    if n == 0:
+        return "Fake News"
+    elif n == 1:
+        return "Not A Fake News"
+
+def manual_testing(news):
+    testing_news = {"text": [news]}
+    new_def_test = pd.DataFrame(testing_news)
+    new_def_test["text"] = new_def_test["text"].apply(wordopt)
+    new_x_test = new_def_test["text"]
+    new_xv_test = vectorization.transform(new_x_test)
+    pred_LR = LR.predict(new_xv_test)
+    pred_DT = DT.predict(new_xv_test)
+    pred_GBC = GBC.predict(new_xv_test)
+    pred_RFC = RFC.predict(new_xv_test)
+
+    return print("\n\nLR Prediction: {} \nDT Prediction: {} \nGBC Prediction: {} \nRFC Prediction: {}".format(
+        output_lable(pred_LR[0]),
+        output_lable(pred_DT[0]),
+        output_lable(pred_GBC[0]),
+        output_lable(pred_RFC[0])
+    ))
+
+# Example usage:
+news = input("Enter news text: ")
+manual_testing(news)
